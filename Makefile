@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror -g3 -pthread
 SRCDIR = src
 OBJDIR = obj
 
-SRCS = $(SRCDIR)/test.c\
+SRCS = $(SRCDIR)/main.c $(SRCDIR)/init_philo.c $(SRCDIR)/lunch_time.c\
 
 OBJS = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SRCS))
  
@@ -16,7 +16,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 		@echo "			-> Compiling $(NAME)..."
-		@$(CC) $(OBJS) -o $@
+		@$(CC) $(OBJS) -o $@ -pthread -fsanitize=thread -g
 		@echo "			-> Finished $(NAME)"
 
 $(OBJDIR):

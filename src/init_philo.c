@@ -1,36 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   init_philo.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lochane <lochane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/02 12:35:42 by lsouquie          #+#    #+#             */
-/*   Updated: 2023/07/28 00:51:18 by lochane          ###   ########.fr       */
+/*   Created: 2023/07/27 17:38:46 by lochane           #+#    #+#             */
+/*   Updated: 2023/07/28 00:52:02 by lochane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#include "../philo.h"
 
-# include <pthread.h>
-# include <stdio.h>  
-# include <stdlib.h>
-
-typedef struct s_philosophers
+void	init_struct(t_data *data, int count)
 {
-	pthread_t	thread_id;
-}	t_philosophers;
+	data->nb_philo = count;
+}
 
-typedef struct s_data
+void	birth_of_philos(t_data *data)
 {
-	int nb_philo;
-	t_philosophers philosophers[250];
-}	t_data;
-
-void	birth_of_philos(t_data *data);
-void	init_struct(t_data *data, int count);
-
-void *need_to_eat(void *data);
-
-#endif
+	int	i;
+	
+	i = 0;
+	while(i < data->nb_philo)
+	{
+		pthread_create(&data->philosophers->thread_id, NULL, need_to_eat, NULL);
+		i++;
+	}
+}

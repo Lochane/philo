@@ -1,36 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lochane <lochane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/02 12:35:42 by lsouquie          #+#    #+#             */
-/*   Updated: 2023/07/28 00:51:18 by lochane          ###   ########.fr       */
+/*   Created: 2023/07/27 16:35:56 by lochane           #+#    #+#             */
+/*   Updated: 2023/07/28 00:46:49 by lochane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#include "../philo.h"
 
-# include <pthread.h>
-# include <stdio.h>  
-# include <stdlib.h>
+// number_of_philosophers time_to_die time_to_eat
+// time_to_sleep
+// [number_of_times_each_philosopher_must_eat]
 
-typedef struct s_philosophers
+int	main(int ac, char **argv)
 {
-	pthread_t	thread_id;
-}	t_philosophers;
-
-typedef struct s_data
-{
-	int nb_philo;
-	t_philosophers philosophers[250];
-}	t_data;
-
-void	birth_of_philos(t_data *data);
-void	init_struct(t_data *data, int count);
-
-void *need_to_eat(void *data);
-
-#endif
+	t_data	data;
+	(void)ac;
+	
+	init_struct(&data, atoi(argv[1])); // TODO ajouter mon atoi
+	birth_of_philos(&data);
+}

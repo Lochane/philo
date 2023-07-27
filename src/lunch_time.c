@@ -1,36 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   lunch_time.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lochane <lochane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/02 12:35:42 by lsouquie          #+#    #+#             */
-/*   Updated: 2023/07/28 00:51:18 by lochane          ###   ########.fr       */
+/*   Created: 2023/07/27 17:38:41 by lochane           #+#    #+#             */
+/*   Updated: 2023/07/28 00:52:46 by lochane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#include "../philo.h"
 
-# include <pthread.h>
-# include <stdio.h>  
-# include <stdlib.h>
-
-typedef struct s_philosophers
+void *need_to_eat(void *data)
 {
-	pthread_t	thread_id;
-}	t_philosophers;
+	// pick_fork(philo, philo);
+	// pick_fork(philo, (philo + 1)%data->nb_philo);
+		printf("philo has been created");
+}
 
-typedef struct s_data
+void *done_eating(t_data *data, int philo)
 {
-	int nb_philo;
-	t_philosophers philosophers[250];
-}	t_data;
-
-void	birth_of_philos(t_data *data);
-void	init_struct(t_data *data, int count);
-
-void *need_to_eat(void *data);
-
-#endif
+	// put_down_fork(philo, philo);
+	// put_down_fork(philo, (philo + 1)%data->nb_philo);
+	
+}
