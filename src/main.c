@@ -6,7 +6,7 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:35:56 by lochane           #+#    #+#             */
-/*   Updated: 2023/08/09 10:32:19 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/11 18:54:41 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 int	main(int ac, char **argv)
 {
 	t_data	data;
-	if (ac != 6)
+	if (ac != 5)
 		return (printf("Error:\nThis program take 5 arguments\n"));
 	if (!check_integrity(argv))
 		return (printf("Error:\nThis program only take digits\n"));

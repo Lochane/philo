@@ -6,7 +6,7 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 17:38:46 by lochane           #+#    #+#             */
-/*   Updated: 2023/08/09 12:07:42 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/11 19:19:24 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,20 @@
 
 void	init_struct(t_data *data, char **argv)
 {
-	data->philosophers->rules.nb_philo = ft_atoi(argv[1]);
-	data->philosophers->rules.time_to_die = ft_atoi(argv[2]);
-	data->philosophers->rules.time_to_eat = ft_atoi(argv[3]);
-	data->philosophers->rules.time_to_sleep = ft_atoi(argv[4]);
-	data->philosophers->rules.starving_time = ft_atoi(argv[5]);
-	data->philosophers->index = 0;	
-	data->philosophers->tic_tac = 0;	
+	int	i;
+
+	i = 0;
+	data->rules.nb_philo = ft_atoi(argv[1]);
+	data->rules.time_to_die = ft_atoi(argv[2]);
+	data->rules.time_to_eat = ft_atoi(argv[3]);
+	data->rules.time_to_sleep = ft_atoi(argv[4]);
+	// data->philosophers->rules.starving_time = ft_atoi(argv[5]);
+	while (i < data->rules.nb_philo)
+	{
+		data->philosophers[i].data = data;
+		data->philosophers[i].index = 0;	
+		data->philosophers[i].tic_tac = 0;		
+	}
 }
 
 int	check_integrity(char **argv)
@@ -45,15 +52,16 @@ int	check_integrity(char **argv)
 	return (1);
 }
 
-void	birth_of_philos(t_philosophers *data)
+void	birth_of_philos(t_data *data)
 {
 	int	i;
 	
 	i = 0;
 	t_philosophers	*init_philo;
 	
-	init_philo = data;
-	while(i < init_philo->rules.nb_philo)
+	init_philo = (t_philosophers *)data->philosophers;
+	data->rules.starting_time = get_time();
+	while(i < data->rules.nb_philo)
 	{
 		init_philo[i].index = i;
 		pthread_create(&init_philo[i].thread_id, NULL, &philo_routine, &init_philo[i]);
@@ -61,3 +69,5 @@ void	birth_of_philos(t_philosophers *data)
 		i++;
 	}
 }
+
+printf("%d\n", get_time() - data->rule.starting_time)

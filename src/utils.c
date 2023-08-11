@@ -6,7 +6,7 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 10:17:01 by lsouquie          #+#    #+#             */
-/*   Updated: 2023/08/09 11:20:21 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/11 19:13:28 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,17 @@ int     ft_atoi(const char *str)
                 i++;
         }
         return (nb * neg);
+}
+
+void    smart_sleep(int time)
+{
+        int     start;
+        
+        start = get_time();
+        time = start + time;
+        while (time > get_time())
+        {
+                usleep(10);
+        }
+        return ;
 }

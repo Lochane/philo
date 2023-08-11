@@ -6,11 +6,21 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 17:38:41 by lochane           #+#    #+#             */
-/*   Updated: 2023/08/09 12:11:56 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/11 19:08:58 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
+
+int	get_time()
+{
+		struct timeval time;
+		int				current_time;
+		
+		gettimeofday(&time, NULL);
+		current_time = time.tv_sec * 1000 + time.tv_usec / 1000;
+		return (current_time);
+}
 
 void thinking_time(void *data)
 {
@@ -18,12 +28,11 @@ void thinking_time(void *data)
 
 	think_struct = data;
 	think_struct->philosophers->tic_tac = 0;
-	gettimeofday(&think_struct->philosophers->time, NULL);
-	printf("%ld %d is thinking\n",think_struct->philosophers->time.tv_usec , \
-	think_struct->philosophers->index);
+	printf("%d %d is thinking\n", get_time(), think_struct->philosophers->index);
 	while(think_struct->philosophers->tic_tac <= \
-	think_struct->philosophers->rules.starving_time)
+	think_struct->rules.time_to_die)
 		think_struct->philosophers->tic_tac++;
+	printf("starving time\n");
 }
 
 void *philo_routine(void *data)
