@@ -3,28 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   init_philo.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lochane <lochane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 17:38:46 by lochane           #+#    #+#             */
-/*   Updated: 2023/07/28 00:52:02 by lochane          ###   ########.fr       */
+/*   Updated: 2023/08/09 12:07:42 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	init_struct(t_data *data, int count)
+void	init_struct(t_data *data, char **argv)
 {
-	data->nb_philo = count;
+	data->philosophers->rules.nb_philo = ft_atoi(argv[1]);
+	data->philosophers->rules.time_to_die = ft_atoi(argv[2]);
+	data->philosophers->rules.time_to_eat = ft_atoi(argv[3]);
+	data->philosophers->rules.time_to_sleep = ft_atoi(argv[4]);
+	data->philosophers->rules.starving_time = ft_atoi(argv[5]);
+	data->philosophers->index = 0;	
+	data->philosophers->tic_tac = 0;	
 }
 
-void	birth_of_philos(t_data *data)
+int	check_integrity(char **argv)
+{
+	int i;
+	int j;
+	
+	i = 1;
+	j = 0;
+	while(argv[i])
+	{
+		j = 0;
+		while(argv[i][j])
+		{
+			if(argv[i][j] >= '0' && argv[i][j] <= '9')
+				j++;
+			else
+				return (0);
+		}
+		i++;
+	}
+	return (1);
+}
+
+void	birth_of_philos(t_philosophers *data)
 {
 	int	i;
 	
 	i = 0;
-	while(i < data->nb_philo)
+	t_philosophers	*init_philo;
+	
+	init_philo = data;
+	while(i < init_philo->rules.nb_philo)
 	{
-		pthread_create(&data->philosophers->thread_id, NULL, need_to_eat, NULL);
+		init_philo[i].index = i;
+		pthread_create(&init_philo[i].thread_id, NULL, &philo_routine, &init_philo[i]);
+		pthread_join(init_philo[i].thread_id, NULL);
 		i++;
 	}
 }
