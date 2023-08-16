@@ -6,7 +6,7 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 10:17:01 by lsouquie          #+#    #+#             */
-/*   Updated: 2023/08/11 19:13:28 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/16 17:54:00 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,11 @@ int     ft_atoi(const char *str)
 void    smart_sleep(int time)
 {
         int     start;
+        int     tfinal;
         
         start = get_time();
-        time = start + time;
-        while (time > get_time())
+        tfinal = start + time;
+        while (tfinal > get_time())
         {
                 usleep(10);
         }

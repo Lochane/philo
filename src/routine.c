@@ -6,16 +6,16 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 17:38:41 by lochane           #+#    #+#             */
-/*   Updated: 2023/08/11 19:08:58 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/16 19:56:03 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-int	get_time()
+long long int	get_time()
 {
 		struct timeval time;
-		int				current_time;
+		long long int	current_time;
 		
 		gettimeofday(&time, NULL);
 		current_time = time.tv_sec * 1000 + time.tv_usec / 1000;
@@ -24,24 +24,24 @@ int	get_time()
 
 void thinking_time(void *data)
 {
-	t_data *think_struct;
+	t_philosophers *think_struct;
 
 	think_struct = data;
-	think_struct->philosophers->tic_tac = 0;
-	printf("%d %d is thinking\n", get_time(), think_struct->philosophers->index);
-	while(think_struct->philosophers->tic_tac <= \
-	think_struct->rules.time_to_die)
-		think_struct->philosophers->tic_tac++;
-	printf("starving time\n");
+	printf("%lld\n", think_struct->rules->starting_time);
+	printf("%lld %d is thinking\n", get_time() - think_struct->rules->starting_time, think_struct->index);
 }
 
 void *philo_routine(void *data)
 {
-	t_data *philo;
+	t_philosophers *philo;
 
-	philo = (t_data *)data;
-	pthread_mutex_lock(&philo->philosophers->mutex);
-	thinking_time(philo);
-	pthread_mutex_unlock(&philo->philosophers->mutex);
+	philo = (t_philosophers *)data;
+	pthread_mutex_lock(&philo->mutex);
+	need_to_eat(philo);
+	pthread_mutex_unlock(&philo->mutex);
+/*-------------------------------*/	
+	// pthread_mutex_lock(&philo->mutex);
+	// thinking_time(philo);
+	// pthread_mutex_unlock(&philo->mutex);
 	return NULL;
 }

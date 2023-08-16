@@ -6,7 +6,7 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 17:38:46 by lochane           #+#    #+#             */
-/*   Updated: 2023/08/11 19:19:24 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/16 19:36:12 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,14 @@ void	init_struct(t_data *data, char **argv)
 	data->rules.time_to_die = ft_atoi(argv[2]);
 	data->rules.time_to_eat = ft_atoi(argv[3]);
 	data->rules.time_to_sleep = ft_atoi(argv[4]);
+	data->rules.starting_time = 0;
 	// data->philosophers->rules.starving_time = ft_atoi(argv[5]);
 	while (i < data->rules.nb_philo)
 	{
-		data->philosophers[i].data = data;
+		data->philosophers[i].rules = &data->rules;
 		data->philosophers[i].index = 0;	
 		data->philosophers[i].tic_tac = 0;		
+		i++;
 	}
 }
 
@@ -64,10 +66,9 @@ void	birth_of_philos(t_data *data)
 	while(i < data->rules.nb_philo)
 	{
 		init_philo[i].index = i;
+		init_philo[i].fork_right = &init_philo[i + 1].fork_left;
 		pthread_create(&init_philo[i].thread_id, NULL, &philo_routine, &init_philo[i]);
 		pthread_join(init_philo[i].thread_id, NULL);
 		i++;
 	}
 }
-
-printf("%d\n", get_time() - data->rule.starting_time)
