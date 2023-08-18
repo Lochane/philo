@@ -6,7 +6,7 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:35:56 by lochane           #+#    #+#             */
-/*   Updated: 2023/08/16 19:35:32 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/18 17:14:13 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	manage_mutex(t_data *data, int allow)
 			pthread_mutex_destroy(&data->philosophers[i].fork_left);
 			pthread_mutex_destroy(&data->philosophers[i].mutex);
 		}
-		
+		i++;
 	}
 }
 

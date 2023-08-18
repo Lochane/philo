@@ -6,7 +6,7 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 17:38:41 by lochane           #+#    #+#             */
-/*   Updated: 2023/08/16 19:56:03 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/18 19:02:40 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void thinking_time(void *data)
 	t_philosophers *think_struct;
 
 	think_struct = data;
-	printf("%lld\n", think_struct->rules->starting_time);
 	printf("%lld %d is thinking\n", get_time() - think_struct->rules->starting_time, think_struct->index);
 }
 
@@ -36,12 +35,21 @@ void *philo_routine(void *data)
 	t_philosophers *philo;
 
 	philo = (t_philosophers *)data;
-	pthread_mutex_lock(&philo->mutex);
-	need_to_eat(philo);
-	pthread_mutex_unlock(&philo->mutex);
-/*-------------------------------*/	
-	// pthread_mutex_lock(&philo->mutex);
-	// thinking_time(philo);
-	// pthread_mutex_unlock(&philo->mutex);
+	while (1)
+	{
+		pthread_mutex_lock(&philo->mutex);
+		lunch_time(philo);
+		pthread_mutex_unlock(&philo->mutex);
+		pthread_mutex_lock(&philo->mutex);
+		printf("%lld %d is sleeping\n", get_time() - philo->rules->starting_time, philo->index);
+		smart_sleep(philo->rules->time_to_sleep);
+		pthread_mutex_unlock(&philo->mutex);
+		if (philo->index % 2 != 0)
+		{
+			pthread_mutex_lock(&philo->mutex);
+			thinking_time(philo);
+			pthread_mutex_unlock(&philo->mutex);
+		}	
+	}
 	return NULL;
 }

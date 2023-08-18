@@ -6,7 +6,7 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 12:35:42 by lsouquie          #+#    #+#             */
-/*   Updated: 2023/08/16 19:34:16 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/18 18:34:30 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,10 @@ void 	*philo_routine(void *data);
 long long int	get_time();
 
 
-void need_to_eat(void *data);
-void done_eating(t_data *data, int philo);
+void lunch_time(void *data);
 
 
 int     ft_atoi(const char *str);
-int     ft_isdigit(int c);
+void    smart_sleep(int time);
 
 #endif

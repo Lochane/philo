@@ -6,7 +6,7 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 17:38:46 by lochane           #+#    #+#             */
-/*   Updated: 2023/08/16 19:36:12 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/18 19:23:58 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,28 @@ void	birth_of_philos(t_data *data)
 	
 	init_philo = (t_philosophers *)data->philosophers;
 	data->rules.starting_time = get_time();
+	pthread_mutex_lock(&init_philo->mutex);
 	while(i < data->rules.nb_philo)
 	{
-		init_philo[i].index = i;
-		init_philo[i].fork_right = &init_philo[i + 1].fork_left;
+		init_philo[i].index = i + 1;
+		if (i == data->rules.nb_philo -1)
+		{
+			init_philo[i].fork_right = &init_philo[0].fork_left;
+			// printf("adresse dur premier philo = %p\n", &init_philo[0].fork_left);
+			// printf("adresse du dernier = %p\n", init_philo[i].fork_right);
+		}
+		else
+			init_philo[i].fork_right = &init_philo[i + 1].fork_left;
 		pthread_create(&init_philo[i].thread_id, NULL, &philo_routine, &init_philo[i]);
-		pthread_join(init_philo[i].thread_id, NULL);
 		i++;
 	}
+	pthread_mutex_unlock(&init_philo->mutex);	
+	i = 0;	
+	while(i < data->rules.nb_philo)
+	{
+		pthread_join(init_philo[i].thread_id, NULL);
+		i++;	
+	}
+
+
 }

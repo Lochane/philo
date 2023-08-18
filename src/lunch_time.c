@@ -6,14 +6,14 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 11:19:41 by lsouquie          #+#    #+#             */
-/*   Updated: 2023/08/16 19:56:00 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/18 19:22:01 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
 
-void need_to_eat(void *data)
+void lunch_time(void *data)
 {
 	t_philosophers *hungry_struct;
 
@@ -22,13 +22,8 @@ void need_to_eat(void *data)
 	printf("%lld %d has taken a fork\n", get_time() - hungry_struct->rules->starting_time, hungry_struct->index);
 	pthread_mutex_lock(hungry_struct->fork_right);
 	printf("%lld %d has taken a fork\n", get_time() - hungry_struct->rules->starting_time, hungry_struct->index);
-	// pick_fork(philo, (philo + 1)%data->nb_philo);
-}
-
-void done_eating(t_data *data, int philo)
-{
-	// put_down_fork(philo, philo);
-	// put_down_fork(philo, (philo + 1)%data->nb_philo);
-	(void)data;
-	(void)philo;
+	printf("%lld %d is eating\n", get_time() - hungry_struct->rules->starting_time, hungry_struct->index);
+	smart_sleep(hungry_struct->rules->time_to_eat);
+	pthread_mutex_unlock(&hungry_struct->fork_left);
+	pthread_mutex_unlock(hungry_struct->fork_right);
 }
