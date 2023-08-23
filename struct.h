@@ -6,7 +6,7 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 19:19:54 by lsouquie          #+#    #+#             */
-/*   Updated: 2023/08/16 19:31:41 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/23 16:39:08 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,15 @@ typedef struct s_philosophers
 	pthread_mutex_t fork_left;
 	pthread_mutex_t *fork_right;
 	pthread_mutex_t mutex;
+	pthread_mutex_t *check_death;
 	t_rules			*rules;
-	int tic_tac;
+	int last_meal;
 }	t_philosophers;
 
 typedef struct s_data
 {	
 	t_philosophers philosophers[250];
+	pthread_mutex_t check_death;
 	t_rules	rules;
 }	t_data;
 

@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror -g3
 SRCDIR = src
 OBJDIR = obj
 
-SRCS = $(SRCDIR)/main.c $(SRCDIR)/init_philo.c $(SRCDIR)/lunch_time.c $(SRCDIR)/utils.c \
+SRCS = $(SRCDIR)/main.c $(SRCDIR)/init_philo.c $(SRCDIR)/utils.c \
 	$(SRCDIR)/routine.c\
 
 OBJS = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SRCS))

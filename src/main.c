@@ -6,7 +6,7 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:35:56 by lochane           #+#    #+#             */
-/*   Updated: 2023/08/18 17:14:13 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/23 16:39:47 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@ void	manage_mutex(t_data *data, int allow)
 		if (allow == 0)
 		{
 			pthread_mutex_init(&data->philosophers[i].fork_left, NULL);
+			pthread_mutex_init(&data->check_death, NULL);
 			pthread_mutex_init(&data->philosophers[i].mutex, NULL);
 		}
 		if (allow == 1)
 		{
 			pthread_mutex_destroy(&data->philosophers[i].fork_left);
+			pthread_mutex_destroy(&data->check_death);
 			pthread_mutex_destroy(&data->philosophers[i].mutex);
 		}
 		i++;
@@ -41,12 +43,14 @@ int	main(int ac, char **argv)
 {
 	t_data	data;
 	
+
+	// data = malloc(sizeof(t_data));
 	if (ac != 5)
 		return (printf("Error:\nThis program take 5 arguments\n"));
 	if (!check_integrity(argv))
 		return (printf("Error:\nThis program only take digits\n"));
-	manage_mutex(&data, 0);
 	init_struct(&data, argv);
+	manage_mutex(&data, 0);
 	birth_of_philos(&data);
 	manage_mutex(&data, 1);
 }

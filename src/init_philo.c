@@ -6,11 +6,20 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 17:38:46 by lochane           #+#    #+#             */
-/*   Updated: 2023/08/18 19:23:58 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/23 16:52:34 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
+
+void	manage_death_mutex(int i, t_data *data)
+{
+	if (i > 0)
+		data->philosophers[i].check_death = data->philosophers[0].check_death;
+	else
+		data->philosophers[i].check_death = &data->check_death;
+	// printf("%p\n", data->philosophers[i].check_death);
+}
 
 void	init_struct(t_data *data, char **argv)
 {
@@ -27,7 +36,7 @@ void	init_struct(t_data *data, char **argv)
 	{
 		data->philosophers[i].rules = &data->rules;
 		data->philosophers[i].index = 0;	
-		data->philosophers[i].tic_tac = 0;		
+		data->philosophers[i].last_meal = 0;	
 		i++;
 	}
 }
@@ -67,15 +76,13 @@ void	birth_of_philos(t_data *data)
 	while(i < data->rules.nb_philo)
 	{
 		init_philo[i].index = i + 1;
+		manage_death_mutex(i, data);
 		if (i == data->rules.nb_philo -1)
-		{
 			init_philo[i].fork_right = &init_philo[0].fork_left;
-			// printf("adresse dur premier philo = %p\n", &init_philo[0].fork_left);
-			// printf("adresse du dernier = %p\n", init_philo[i].fork_right);
-		}
 		else
 			init_philo[i].fork_right = &init_philo[i + 1].fork_left;
 		pthread_create(&init_philo[i].thread_id, NULL, &philo_routine, &init_philo[i]);
+		usleep(10);
 		i++;
 	}
 	pthread_mutex_unlock(&init_philo->mutex);	
