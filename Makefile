@@ -9,7 +9,6 @@ SRCS = $(SRCDIR)/main.c $(SRCDIR)/init_philo.c $(SRCDIR)/utils.c \
 
 OBJS = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SRCS))
  
-
 NAME = philo
 
 all: $(NAME)
@@ -22,6 +21,7 @@ $(NAME): $(OBJS)
 
 $(OBJDIR):
 	@mkdir -p $(OBJDIR)
+
 	
 $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
 	@$(CC) $(CFLAGS) -c $< -o $@

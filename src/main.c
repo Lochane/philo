@@ -6,7 +6,7 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:35:56 by lochane           #+#    #+#             */
-/*   Updated: 2023/08/23 16:39:47 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/28 18:18:57 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,26 @@ void	manage_mutex(t_data *data, int allow)
 	int i;
 
 	i = 0;
-	while (i <= data->rules.nb_philo)
+	if (allow == 0)
 	{
-		if (allow == 0)
+		while (i <= data->rules.nb_philo)
 		{
 			pthread_mutex_init(&data->philosophers[i].fork_left, NULL);
-			pthread_mutex_init(&data->check_death, NULL);
-			pthread_mutex_init(&data->philosophers[i].mutex, NULL);
+			i++;
 		}
-		if (allow == 1)
+		pthread_mutex_init(&data->check_death, NULL);
+		pthread_mutex_init(&data->mutex, NULL);
+		pthread_mutex_init(&data->lock, NULL);
+	}
+	if (allow == 1)
+	{
+		while (i <= data->rules.nb_philo)
 		{
-			pthread_mutex_destroy(&data->philosophers[i].fork_left);
-			pthread_mutex_destroy(&data->check_death);
-			pthread_mutex_destroy(&data->philosophers[i].mutex);
+			pthread_mutex_destroy(&data->philosophers[i].fork_left);		
+			i++;
 		}
-		i++;
+		// pthread_mutex_destroy(&data->check_death);
+		pthread_mutex_destroy(&data->mutex);
 	}
 }
 

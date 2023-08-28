@@ -6,7 +6,7 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 19:19:54 by lsouquie          #+#    #+#             */
-/*   Updated: 2023/08/23 16:39:08 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/28 17:22:00 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct s_rules
 	int time_to_die;
 	int time_to_sleep;
 	long long	starting_time;
+	bool		someoneIsDead;
 	// int starving_time;	
 }	t_rules;
 
@@ -30,7 +31,7 @@ typedef struct s_philosophers
 	unsigned int	index;
 	pthread_mutex_t fork_left;
 	pthread_mutex_t *fork_right;
-	pthread_mutex_t mutex;
+	pthread_mutex_t *mutex;
 	pthread_mutex_t *check_death;
 	t_rules			*rules;
 	int last_meal;
@@ -40,6 +41,8 @@ typedef struct s_data
 {	
 	t_philosophers philosophers[250];
 	pthread_mutex_t check_death;
+	pthread_mutex_t lock;
+	pthread_mutex_t mutex;
 	t_rules	rules;
 }	t_data;
 
