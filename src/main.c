@@ -6,7 +6,7 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:35:56 by lochane           #+#    #+#             */
-/*   Updated: 2023/08/30 20:05:01 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/30 20:58:13 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	manage_mutex(t_data *data, int allow)
 	i = 0;
 	if (allow == 0)
 	{
-		while (i <= data->rules.nb_philo)
+		while (i < data->rules.nb_philo)
 		{
 			pthread_mutex_init(&data->philosophers[i].fork_left, NULL);
 			i++;
@@ -51,7 +51,7 @@ void	manage_mutex(t_data *data, int allow)
 	}
 	if (allow == 1)
 	{
-		while (i <= data->rules.nb_philo)
+		while (i < data->rules.nb_philo)
 		{
 			pthread_mutex_destroy(&data->philosophers[i].fork_left);
 			i++;
@@ -90,15 +90,18 @@ int	main(int ac, char **argv)
 {
 	t_data	*data;
 
-	data = malloc(sizeof(t_data));
-	if (!data)
-		return (0);
 	if (ac != 6 && ac != 5)
 		return (printf("Error:\nThis program take 5 or 6 arguments\n"));
 	if (!check_integrity(argv))
 		return (printf("Error:\nThis program only take digits\n"));
-	if (init_struct(data, argv) == 0)
+	data = malloc(sizeof(t_data));
+	if (!data)
 		return (0);
+	if (init_struct(data, argv) == 0)
+	{
+		free(data);
+		return (0);
+	}
 	if (data->rules.nb_philo == 1)
 		one_philo(data);
 	else
