@@ -6,7 +6,7 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 17:38:46 by lochane           #+#    #+#             */
-/*   Updated: 2023/08/30 20:11:28 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/30 21:18:43 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int	init_struct(t_data *data, char **argv)
 
 	i = 0;
 	data->rules.nb_philo = ft_atoi(argv[1]);
+	if ((data->rules.nb_philo > 200) || (data->rules.nb_philo < 0))
+		return (0);
 	data->rules.time_to_die = ft_atoi(argv[2]);
 	data->rules.time_to_eat = ft_atoi(argv[3]);
 	data->rules.time_to_sleep = ft_atoi(argv[4]);
@@ -54,10 +56,7 @@ int	init_struct(t_data *data, char **argv)
 	data->rules.someone_is_dead = FALSE;
 	data->philosophers = malloc(sizeof(t_philosophers) * data->rules.nb_philo);
 	if (!data->philosophers)
-	{
-		free(data);
 		return (0);
-	}
 	if (argv[5])
 		data->rules.max_meal = ft_atoi(argv[5]);
 	else
