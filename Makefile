@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -Wall -Wextra -Werror -g
 
 SRCDIR = src
 OBJDIR = obj
@@ -16,7 +16,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 		@echo "			-> Compiling $(NAME)..."
-		@$(CC) $(OBJS) -o $@ -pthread -g
+		@$(CC) $(OBJS) -o $@ -pthread $(CFLAGS)
 		@echo "			-> Finished $(NAME)"
 
 $(OBJDIR):

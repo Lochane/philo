@@ -6,7 +6,7 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:35:56 by lochane           #+#    #+#             */
-/*   Updated: 2023/08/30 16:49:41 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/30 20:05:01 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	manage_mutex(t_data *data, int allow)
 		}
 		pthread_mutex_init(&data->check_death, NULL);
 		pthread_mutex_init(&data->mutex, NULL);
-		pthread_mutex_init(&data->lock, NULL);
 	}
 	if (allow == 1)
 	{
@@ -59,7 +58,6 @@ void	manage_mutex(t_data *data, int allow)
 		}
 		pthread_mutex_destroy(&data->check_death);
 		pthread_mutex_destroy(&data->mutex);
-		pthread_mutex_destroy(&data->lock);
 	}
 }
 
@@ -68,22 +66,22 @@ void	*philo_routine(void *data)
 	t_philosophers	*philo;
 
 	philo = (t_philosophers *)data;
+	pthread_mutex_lock(philo->mutex);
+	pthread_mutex_unlock(philo->mutex);
+	if (philo->index % 2)
+		usleep(10000);
 	while (1)
 	{
-		if (philo->rules->max_meal)
-		{
-			if (philo->nb_of_meal == philo->rules->max_meal)
-				return (NULL);
-		}
+		if (philo->nb_of_meal == philo->rules->max_meal)
+			return (NULL);
 		if (lunch_time(philo) == 1)
 			return (NULL);
 		if (smart_print(philo, "is sleeping") == 1)
 			return (NULL);
 		if (smart_sleep(philo->rules->time_to_sleep, philo) == 1)
 			return (NULL);
-		if (philo->rules->nb_philo % 2 != 0)
-			if (thinking_time(philo) == 1)
-				return (NULL);
+		if (thinking_time(philo) == 1)
+			return (NULL);
 	}
 	return (NULL);
 }

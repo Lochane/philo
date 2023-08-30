@@ -6,7 +6,7 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 17:38:46 by lochane           #+#    #+#             */
-/*   Updated: 2023/08/30 17:07:15 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/30 20:11:28 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	init_struct(t_data *data, char **argv)
 	if (argv[5])
 		data->rules.max_meal = ft_atoi(argv[5]);
 	else
-		data->rules.max_meal = 0;
+		data->rules.max_meal = -1;
 	init_philo(data);
 	return (1);
 }
@@ -87,8 +87,7 @@ void	birth_of_philos(t_data *data)
 
 	i = 0;
 	init_philo = (t_philosophers *)data->philosophers;
-	data->rules.starting_time = get_time();
-	pthread_mutex_lock(&data->lock);
+	pthread_mutex_lock(&data->mutex);
 	while (i < data->rules.nb_philo)
 	{
 		init_philo[i].index = i + 1;
@@ -99,9 +98,9 @@ void	birth_of_philos(t_data *data)
 			init_philo[i].fork_right = &init_philo[i + 1].fork_left;
 		pthread_create(&init_philo[i].thread_id, NULL, &philo_routine, \
 				&init_philo[i]);
-		usleep(10);
 		i++;
 	}
-	pthread_mutex_unlock(&data->lock);
+	data->rules.starting_time = get_time();
+	pthread_mutex_unlock(&data->mutex);
 	join_philo(init_philo);
 }

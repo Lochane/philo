@@ -6,17 +6,14 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 17:38:41 by lochane           #+#    #+#             */
-/*   Updated: 2023/08/30 17:04:48 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/30 20:04:14 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	death_incomming(void *data)
+void	death_incomming(t_philosophers *reaper)
 {
-	t_philosophers	*reaper;
-
-	reaper = (t_philosophers *)data;
 	if (((get_time() - reaper->rules->starting_time) - reaper->last_meal > \
 	reaper->rules->time_to_die))
 	{
@@ -27,11 +24,8 @@ void	death_incomming(void *data)
 	return ;
 }
 
-int	pick_1st_fork(void *data)
+int	pick_1st_fork(t_philosophers *gluttony)
 {
-	t_philosophers	*gluttony;
-
-	gluttony = (t_philosophers *)data;
 	if (gluttony->index % 2)
 	{
 		pthread_mutex_lock(&gluttony->fork_left);
@@ -53,39 +47,23 @@ int	pick_1st_fork(void *data)
 	return (0);
 }
 
-int	pick_2nd_fork(void *data)
+int	pick_2nd_fork(t_philosophers *gluttony)
 {
-	t_philosophers	*gluttony;
-
-	gluttony = (t_philosophers *)data;
 	if (gluttony->index % 2)
-	{
 		pthread_mutex_lock(gluttony->fork_right);
-		if (smart_print(gluttony, "has taken a fork") == 1)
-		{
-			pthread_mutex_unlock(&gluttony->fork_left);
-			pthread_mutex_unlock(gluttony->fork_right);
-			return (1);
-		}
-	}
 	else
-	{
 		pthread_mutex_lock(&gluttony->fork_left);
-		if (smart_print(gluttony, "has taken a fork") == 1)
-		{
-			pthread_mutex_unlock(gluttony->fork_right);
-			pthread_mutex_unlock(&gluttony->fork_left);
-			return (1);
-		}
+	if (smart_print(gluttony, "has taken a fork") == 1)
+	{
+		pthread_mutex_unlock(gluttony->fork_right);
+		pthread_mutex_unlock(&gluttony->fork_left);
+		return (1);
 	}
 	return (0);
 }
 
-int	lunch_time(void *data)
+int	lunch_time(t_philosophers *gluttony)
 {
-	t_philosophers	*gluttony;
-
-	gluttony = (t_philosophers *)data;
 	if (pick_1st_fork(gluttony) == 1)
 		return (1);
 	if (pick_2nd_fork(gluttony) == 1)
@@ -104,13 +82,11 @@ int	lunch_time(void *data)
 	return (0);
 }
 
-int	thinking_time(void *data)
+int	thinking_time(t_philosophers *philo)
 {
-	t_philosophers	*think_struct;
-
-	think_struct = data;
-	if (smart_print(think_struct, "is thinking") == 1)
+	if (smart_print(philo, "is thinking") == 1)
 		return (1);
-	smart_sleep(think_struct->rules->time_to_eat, think_struct);
+	if (philo->rules->nb_philo % 2 != 0)
+		smart_sleep(philo->rules->time_to_eat - 10, philo);
 	return (0);
 }

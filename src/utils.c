@@ -6,7 +6,7 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 10:17:01 by lsouquie          #+#    #+#             */
-/*   Updated: 2023/08/30 16:56:32 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/30 20:13:19 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,17 @@ int	smart_print(void *data, char *str)
 
 int	smart_sleep(int time, void *data)
 {
-	long long int	start;
+//	long long int	start;
 	long long int	tfinal;
 	t_philosophers	*dodo;
 
 	dodo = (t_philosophers *)data;
-	start = get_time();
-	tfinal = start + time;
+//	start = get_time();
+//	tfinal = start + time;
+	tfinal = get_time() + time;
+
 	while (tfinal > get_time())
-		usleep(10);
+		usleep((tfinal - get_time()) % 100);
 	return (0);
 }
 
