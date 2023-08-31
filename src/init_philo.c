@@ -6,7 +6,7 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 17:38:46 by lochane           #+#    #+#             */
-/*   Updated: 2023/08/30 21:18:43 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/31 16:43:20 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	init_struct(t_data *data, char **argv)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	data->rules.nb_philo = ft_atoi(argv[1]);
 	if ((data->rules.nb_philo > 200) || (data->rules.nb_philo < 0))
 		return (0);

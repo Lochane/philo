@@ -6,7 +6,7 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:35:56 by lochane           #+#    #+#             */
-/*   Updated: 2023/08/30 21:19:00 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/31 18:32:51 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,17 @@ int	check_integrity(char **argv)
 	while (argv[i])
 	{
 		j = 0;
+		if (ft_atoi(argv[i]) == (0))
+			return (printf("Error:\nPut an int inferior to INT MAX \
+and superior to 0\n"), 0);
 		while (argv[i][j])
 		{
 			if (argv[i][j] >= '0' && argv[i][j] <= '9')
 				j++;
 			else
-				return (0);
+			{
+				return (printf("Error:\nThis program only take digits\n"), 0);
+			}
 		}
 		i++;
 	}
@@ -73,15 +78,15 @@ void	*philo_routine(void *data)
 	while (1)
 	{
 		if (philo->nb_of_meal == philo->rules->max_meal)
-			return (NULL);
+			break ;
 		if (lunch_time(philo) == 1)
-			return (NULL);
+			break ;
 		if (smart_print(philo, "is sleeping") == 1)
-			return (NULL);
+			break ;
 		if (smart_sleep(philo->rules->time_to_sleep, philo) == 1)
-			return (NULL);
+			break ;
 		if (thinking_time(philo) == 1)
-			return (NULL);
+			break ;
 	}
 	return (NULL);
 }
@@ -91,9 +96,9 @@ int	main(int ac, char **argv)
 	t_data	*data;
 
 	if (ac != 6 && ac != 5)
-		return (printf("Error:\nThis program take 5 or 6 arguments\n"));
+		return (printf("Error:\nThis program take 4 or 5 arguments\n"));
 	if (!check_integrity(argv))
-		return (printf("Error:\nThis program only take digits\n"));
+		return (1);
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (0);
@@ -102,14 +107,12 @@ int	main(int ac, char **argv)
 		free(data);
 		return (0);
 	}
+	manage_mutex(data, 0);
 	if (data->rules.nb_philo == 1)
 		one_philo(data);
 	else
-	{
-		manage_mutex(data, 0);
 		birth_of_philos(data);
-		manage_mutex(data, 1);
-	}
+	manage_mutex(data, 1);
 	free(data->philosophers);
 	free(data);
 	return (0);

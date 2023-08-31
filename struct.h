@@ -6,7 +6,7 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 19:19:54 by lsouquie          #+#    #+#             */
-/*   Updated: 2023/08/30 21:16:42 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/08/31 17:33:24 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ typedef unsigned short	t_bool;
 
 typedef struct s_rules
 {
-	int			nb_philo;
-	int			time_to_eat;
-	int			time_to_die;
-	int			time_to_sleep;
-	int			max_meal;
+	int						nb_philo;
+	int						time_to_eat;
+	int						time_to_die;
+	int						time_to_sleep;
+	int						max_meal;
 	long long				starting_time;
-	t_bool					someone_is_dead;
+	int						someone_is_dead;
 }	t_rules;
 
 typedef struct s_philosophers
