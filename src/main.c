@@ -6,7 +6,7 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:35:56 by lochane           #+#    #+#             */
-/*   Updated: 2023/08/31 18:32:51 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:13:03 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	*philo_routine(void *data)
 	pthread_mutex_unlock(philo->mutex);
 	if (philo->index % 2)
 		usleep(10000);
-	while (1)
+	while (philo->rules->someone_is_dead <= 1)
 	{
 		if (philo->nb_of_meal == philo->rules->max_meal)
 			break ;
@@ -83,7 +83,7 @@ void	*philo_routine(void *data)
 			break ;
 		if (smart_print(philo, "is sleeping") == 1)
 			break ;
-		if (smart_sleep(philo->rules->time_to_sleep, philo) == 1)
+		if (smart_sleep(philo->rules->time_to_sleep, philo, 0) == 1)
 			break ;
 		if (thinking_time(philo) == 1)
 			break ;
