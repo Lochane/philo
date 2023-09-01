@@ -6,30 +6,11 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 17:38:41 by lochane           #+#    #+#             */
-/*   Updated: 2023/08/31 21:10:02 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/09/01 19:03:28 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
-
-int	death_incomming(t_philosophers *reaper)
-{
-
-	if (((get_time() - reaper->rules->starting_time) - reaper->last_meal > \
-		reaper->rules->time_to_die))
-	{
-		pthread_mutex_lock(reaper->check_death);		
-		reaper->rules->someone_is_dead += 1;
-		if (reaper->rules->someone_is_dead == TRUE)
-		{
-			printf("%lld %d died\n", get_time() - reaper->rules->starting_time, \
-		reaper->index);
-		}
-		pthread_mutex_unlock(reaper->check_death);
-		return (1);
-	}
-	return (0);
-}
 
 int	pick_1st_fork(t_philosophers *gluttony)
 {
@@ -102,4 +83,29 @@ int	thinking_time(t_philosophers *philo)
 		if (smart_sleep(philo->rules->time_to_eat - 10, philo) == 1)
 			return (1);
 	return (0);
+}
+
+void	*philo_routine(void *data)
+{
+	t_philosophers	*philo;
+
+	philo = (t_philosophers *)data;
+	pthread_mutex_lock(philo->mutex);
+	pthread_mutex_unlock(philo->mutex);
+	if (philo->index % 2)
+		usleep(10000);
+	while (1)
+	{
+		if (philo->nb_of_meal == philo->rules->max_meal)
+			break ;
+		if (lunch_time(philo) == 1)
+			break ;
+		if (smart_print(philo, "is sleeping") == 1)
+			break ;
+		if (smart_sleep(philo->rules->time_to_sleep, philo) == 1)
+			break ;
+		if (thinking_time(philo) == 1)
+			break ;
+	}
+	return (NULL);
 }

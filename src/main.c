@@ -6,7 +6,7 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:35:56 by lochane           #+#    #+#             */
-/*   Updated: 2023/09/01 17:13:03 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/09/01 18:54:58 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,31 +64,6 @@ void	manage_mutex(t_data *data, int allow)
 		pthread_mutex_destroy(&data->check_death);
 		pthread_mutex_destroy(&data->mutex);
 	}
-}
-
-void	*philo_routine(void *data)
-{
-	t_philosophers	*philo;
-
-	philo = (t_philosophers *)data;
-	pthread_mutex_lock(philo->mutex);
-	pthread_mutex_unlock(philo->mutex);
-	if (philo->index % 2)
-		usleep(10000);
-	while (philo->rules->someone_is_dead <= 1)
-	{
-		if (philo->nb_of_meal == philo->rules->max_meal)
-			break ;
-		if (lunch_time(philo) == 1)
-			break ;
-		if (smart_print(philo, "is sleeping") == 1)
-			break ;
-		if (smart_sleep(philo->rules->time_to_sleep, philo, 0) == 1)
-			break ;
-		if (thinking_time(philo) == 1)
-			break ;
-	}
-	return (NULL);
 }
 
 int	main(int ac, char **argv)

@@ -6,7 +6,7 @@
 /*   By: lsouquie <lsouquie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 15:18:23 by lsouquie          #+#    #+#             */
-/*   Updated: 2023/09/01 15:48:13 by lsouquie         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:32:23 by lsouquie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*u_gonna_starve(void *data)
 	pthread_mutex_lock(&philo->fork_left);
 	printf("%lld %d has taken a fork\n", get_time() - \
 		philo->rules->starting_time, philo->index);
-	if (smart_sleep(philo->rules->time_to_die, philo, 0) == 1)
+	if (smart_sleep(philo->rules->time_to_die, philo) == 1)
 	{
 		pthread_mutex_unlock(&philo->fork_left);
 		return (0);
